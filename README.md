@@ -1,7 +1,7 @@
 # Dithering & Halftoning library
 #### Developed by [Deep Tronix](https://www.rebrand.ly/deeptronix) 2018~2021
 
-A (hopefully comprehensive) guide to this library
+A (hopefully comprehensive) guide to the library.
 
 ## Error diffusion dithering algorithms
 
