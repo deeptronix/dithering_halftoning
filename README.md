@@ -110,7 +110,7 @@ Example: Atkinson dithering;  filter entries: {8, 1, 1, -1, 1, 1, 1, -1, 0, 1, E
 
 `				`( :8 )
 
-
+---
 
 ## FastEDDither algorithm
 
@@ -150,7 +150,7 @@ However, there have been noticed some artifacts (especially on images bigger tha
 These filters, depicted here in a similar fashion as the GPED matrix, are not explicitly visible as a parameter in any part of the two library files; this is because they are implemented as bit shift operations deeply embedded inside the fastEDDither function. So do not expect to be able to change the values applied as easily as in the GPED dither approach.
 
 
-
+---
 
 ## Patterning algorithms
 
@@ -178,11 +178,11 @@ Example usage:
 ```
    image.buildClusteredPattern();		// build a clustered pattern (fill the convol. matrix)
    *...some code, or nothing...*
-   image.patternDither(img\_array);		// dither the image array
-                                       // no need to call build\_\_Pattern ever again
+   image.patternDither(img_array);		// dither the image array
+                                       // no need to call build___Pattern ever again
 ```
 
-
+---
 
 ## Random dither
 
@@ -214,7 +214,7 @@ Example usage:
 
 
 
-
+---
 
 ## Thresholding
 
@@ -237,7 +237,7 @@ Example usage:
 
 
 
-
+---
 
 ## Other functions available
 
