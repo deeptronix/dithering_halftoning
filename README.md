@@ -36,16 +36,13 @@ Since the GPEDDither function is the same for all the algorithms used, there are
 **Coefficient arrangement** for different error-diffusion algorithms (found in Dither.h):
 
 Example:
-
-const int8\_t \_filters[filter\_types][max\_filter\_entries] = {
-
-`	`{16, 7, -1, 3, 5, 1, END},			//  Floyd-Steinberg filter
-
-`	`{8, 1, 1, -1, 1, 1, 1, -1, 0, 1, END},		//  Atkinson filter
-
-`	`…
-
+```
+const int8_t _filters[filter_types][max_filter_entries] = {
+   {16, 7, -1, 3, 5, 1, END},			         //  Floyd-Steinberg filter
+   {8, 1, 1, -1, 1, 1, 1, -1, 0, 1, END},		//  Atkinson filter
+   …
 };
+```
 
 
 
@@ -178,14 +175,12 @@ On lower-end uCs, though, it's recommended to use values of \_size powers of two
 
 Example usage:
 
-`	`image.buildClusteredPattern();		// build a clustered pattern (fill the convol. matrix)
-
-`	`*...some code, or nothing...*
-
-`	`image.patternDither(img\_array);		// dither the image array
-
-`							`// no need to call build\_\_Pattern ever again
-
+```
+   image.buildClusteredPattern();		// build a clustered pattern (fill the convol. matrix)
+   *...some code, or nothing...*
+   image.patternDither(img\_array);		// dither the image array
+                                       // no need to call build\_\_Pattern ever again
+```
 
 
 
@@ -250,78 +245,70 @@ Here we list the other functions, some used in the library, others ment to be us
 NOTE: all of the color conversion function operate on a **single pixel**. If you have to convert an entire image before dithering or displaying/printing, you need to step through each pixel and convert them one by one.
 
 
-uint32\_t index(int x, int y);
-Takes the two values for x and y coordinates (x = 0 → pixels to the far left; y = 0 → pixels at the top) and, implicitly, the values of image width and height provided in the constructor.
-Returns the array index corresponding to the pixel at location (x, y).
+`uint32_t index(int x, int y);`
+
+Takes the two values for x and y coordinates (x = 0 → pixels to the far left; y = 0 → pixels at the top) and, implicitly, the values of image width and height provided in the constructor.\
+Returns the array index corresponding to the pixel at location (x, y).\
 NOTE: this function operates assuming a byte-aligned image array. If you are working with 16 or 24 bit images, the pixels are not correctly indexed. For those images, use the overloaded function below.
 
-uint32\_t index(int x, int y, uint8\_t pix\_len);
-Takes the two values for x and y coordinates (x = 0 → pixels to the far left; y = 0 → pixels at the top) and also how many bytes each pixel is represented by. Implicitly, takes the values of image width and height provided in the constructor. The parameter “pix\_len” is in range [1, 2, 3], which correspond to [8, 16, 24] color bit depths.
+
+`uint32_t index(int x, int y, uint8_t pix_len);`\
+Takes the two values for x and y coordinates (x = 0 → pixels to the far left; y = 0 → pixels at the top) and also how many bytes each pixel is represented by. Implicitly, takes the values of image width and height provided in the constructor. The parameter “pix\_len” is in range [1, 2, 3], which correspond to [8, 16, 24] color bit depths.\
 Returns the index of the first pixel byte at location (x, y) of the image.
 
-uint8\_t color888ToGray256(uint8\_t r, uint8\_t g, uint8\_t b);
-Input arguments are the RGB colors of a pixel, in the format RGB-888.
+
+`uint8_t color888ToGray256(uint8_t r, uint8_t g, uint8_t b);`\
+Input arguments are the RGB colors of a pixel, in the format RGB-888.\
 Returns the average of the 3 pixels (hence, the resulting image will be gray scaled).
 
-void colorGray256To888(uint8\_t color, uint8\_t &r, uint8\_t &g, uint8\_t &b);
-Input argument is a gray scale, 8bit pixel.
-RGB values are also parsed as inputs and accessed (and modified) by address.
+`void colorGray256To888(uint8_t color, uint8_t &r, uint8_t &g, uint8_t &b);`\
+Input argument is a gray scale, 8bit pixel.\
+RGB values are also parsed as inputs and accessed (and modified) by address.\
 Note: obviously, this function cannot restore individual R, G and B components. Keep in mind that the purpose of all of these functions is just to make pixels compatible with algorithms and displays.
 
-bool colorGray256ToBool(uint8\_t gs);
+`bool colorGray256ToBool(uint8\_t gs);`
 Input argument is a gray scale, 8bit pixel.
 Returns a boolean value, formally equal to a threshold applied with comparison value 128.
 
-void color565To888(uint16\_t color565, uint8\_t &r, uint8\_t &g, uint8\_t &b);
-
+`void color565To888(uint16\_t color565, uint8\_t &r, uint8\_t &g, uint8\_t &b);`
 Input argument is a color, RGB-565 pixel.
 RGB values are also parsed as inputs and accessed (and modified) by address.
 
-uint16\_t color888To565(uint8\_t r, uint8\_t g, uint8\_t b);
-
+`uint16\_t color888To565(uint8\_t r, uint8\_t g, uint8\_t b);`
 Input arguments are the RGB values.
 Returns the 16bit, RGB-565 value.
 
-void color332To888(uint8\_t color332, uint8\_t &r, uint8\_t &g, uint8\_t &b);
-
+`void color332To888(uint8\_t color332, uint8\_t &r, uint8\_t &g, uint8\_t &b);`
 Input argument is a color, RGB-332 pixel.
 RGB values are also parsed as inputs and accessed (and modified) by address.
 
-uint8\_t color888To332(uint8\_t r, uint8\_t g, uint8\_t b);
-
+`uint8\_t color888To332(uint8\_t r, uint8\_t g, uint8\_t b);`
 Input arguments are the RGB values.
 Returns the 8bit, RGB-332 value.
 
-void colorBoolTo888(bool color1, uint8\_t &r, uint8\_t &g, uint8\_t &b);
-
+`void colorBoolTo888(bool color1, uint8\_t &r, uint8\_t &g, uint8\_t &b);`
 Input argument is a single boolean value.
-
 RGB output values (in RGB-888 format) are also parsed as inputs and accessed (and modified) by address.
 This function is mainly used for final display output.
 
-bool color888ToBool(uint8\_t r, uint8\_t g, uint8\_t b);
-
+`bool color888ToBool(uint8\_t r, uint8\_t g, uint8\_t b);`
 Input arguments are the RGB-888 colors.
-
 Returns a single boolean value obtained as the average of three colors, and thresholded at 128 ( true when >= 128 ).
 This function is mainly used for final display output.
 
-inline void quantize(uint8\_t quant\_bits, uint8\_t &r, uint8\_t &g, uint8\_t &b);
-
+`inline void quantize(uint8\_t quant\_bits, uint8\_t &r, uint8\_t &g, uint8\_t &b);`
 Quantization function used to limit the input values to the closest quantization level.
 Input argument  quant\_bits defines how many bits will be used to quantize the input values; r, g, b values are parsed and modified by address.
 Defined as 'inline' in order to avoid too much overhead, since the function is very short and not supposed to be used outside the library.
 
-inline void quantize\_BW(uint8\_t &c);
+`inline void quantize\_BW(uint8\_t &c);`
 Simplified quantization function, used only in fastEDDither to speed things up since the quantization output bit depth is predefined and fixed at 1.
 
 
-Private helping functions (identified by a “\_” before each name)
+### Private helping functions (identified by a “\_” before each name)
 
-uint8\_t \_twos\_power(uint16\_t number)
-
+`uint8\_t \_twos\_power(uint16\_t number)`
 Used to get the exponent of a power of two number. Basically, operates the logarithm in base two of a known-to-be-power of two number.
 
-uint8\_t \_clamp(int16\_t v, uint8\_t min, uint8\_t max)
-
+`uint8\_t \_clamp(int16\_t v, uint8\_t min, uint8\_t max)`
 Used to clamp an input value between two positive, 8 bits, values (always 0 and 255 in this library).
