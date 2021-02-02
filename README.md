@@ -241,7 +241,7 @@ Example usage:
 
 ## Other functions available
 
-Here we list the other functions, some used in the library, others ment to be used it your implementation (e.g.: color bit depth conversion, indexing, …), others still already set up for future expansion of the library (such as support for different, higher output bit depths than 1).
+Here we list the other functions, some used in the library, others ment to be used it your implementation (e.g.: color bit depth conversion, indexing, …), others still already set up for future expansion of the library (such as support for different, higher output bit depths than 1).\
 NOTE: all of the color conversion function operate on a **single pixel**. If you have to convert an entire image before dithering or displaying/printing, you need to step through each pixel and convert them one by one.
 
 
