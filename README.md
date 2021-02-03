@@ -129,9 +129,9 @@ The cost of such high level of optimization is payed with the limited range of c
 
 The function rewards the user who chooses to accept these limitations in favor to the time taken to exhaust the image array.
 
-This function takes, on average (and with a sufficiently good compiler) about 90 clock cycles per pixel processed; this translates to about 5-10 times less clock cycles than the aforementioned GPED function.
+This function takes, on average (and with a sufficiently good compiler) about 90 clock cycles per pixel processed; this translates to about 10-20 times less clock cycles than the aforementioned GPED function (for a Floyd-Steinberg filter; other filters take longer proportionally to their number of weights).
 
-For example, an ATMega2560 running at 16MHz will process a 128x32 BW image in about (90\*128\*32)\*(1/16\*10^6) = 23ms, while the same image processed using the GPED function could take up to roughly 200ms.
+For example, an ATMega2560 running at 16MHz will process a 128x32 BW image in about (90*128*32)*(1/(16*10^6)) = 23ms, while the same image processed using the GPED function could take up to roughly 400ms.
 
 
 
