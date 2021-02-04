@@ -148,7 +148,7 @@ However, there have been noticed some artifacts (especially on images bigger tha
 
 `					`( :2 )
 
-These filters, depicted here in a similar fashion as the GPED matrix, are not explicitly visible as a parameter in any part of the two library files; this is because they are implemented as bit shift operations deeply embedded inside the fastEDDither function. So do not expect to be able to change the values applied as easily as in the GPED dither approach.
+These filters, although depicted here in a similar fashion as the GPED matrix, are not explicitly visible as a parameter in any part of the two library files; this is because they are implemented as bit shift operations deeply embedded inside the fastEDDither function. So do not expect to be able to change the values applied as easily as in the GPED dither approach.
 
 
 ---
@@ -195,8 +195,7 @@ The implementation presented of this algorithm, though, has a couple of degrees 
 
 - a variable “time\_consistency” can be fed alongside the input image array as a function parameter, which if set to “true” makes use of a pre-filled random array of values; this both increments speed (since random value generation on the fly would otherwise be obtained using timers and delays), but also makes this dithering approach more time-consistent (frame-by-frame), especially useful for animations.
   This variable is already set up to be used, true by default, as can be seen in the definition of the function “randomDither” in the “Dither.h” file.
-- a second variable “threshold” can be set, which essentially offsets the comparison either positively or negatively, with a value inside the interval [-128 : +127]. A positive threshold will make the image appear darker.
-
+- a second variable “threshold” can be set, which essentially offsets the comparison either positively or negatively, with a value inside the interval [-128 : +127]. A positive threshold will make the image appear darker.\
 This variable is also already set by default in the function definition, but is set to false in order not to modify the look of an image if not explicitly expressed.
 
 - The parameter “\_rnd\_frame\_width” found in “Dither.h” will dictate how long the array of pre-filled random values is going to be. This is crucial in order to avoid artifacts, that will emerge if too short of an array is used (basically, the comparison numbers inside each image line will be repeated). A value equal or greater than the image width is recommended; the only cost for higher values of this variable is the use of RAM memory (the array type is uint\_8t).
