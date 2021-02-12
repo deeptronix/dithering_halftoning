@@ -57,7 +57,7 @@ Array observations:
 Values arrangement explanation:
 
 1) The first value (location '0' of each matrix line) is the DIVISOR. This value is used to “normalize” the weights applied.
-   Note: The GPED function will try to optimize on its own divisions by power of two into bitshift operations whenever possible. This comes at the cost of checking, at each pixel, if this condition is satisfied. If you know you will be using a known power of two divisor, or a MCU with hardware division, you an remove the lines of code that choose the division method.
+   Note: The GPED function will try to optimize on its own divisions by power of two into bitshift operations whenever possible. This comes at the cost of checking, at each pixel, if this condition is satisfied. If you know you will be using a known power of two divisor, or a MCU with hardware division, you can remove the lines of code that choose the division method.
 1) Each successive value is either:
    - a **positive** value: this represents an error-diffusion weight. The neighbouring pixels to the one currently analyzed will be multiplied by this amount (and then divided as in point 1) )
    - a **negative** value: the fact that is negative represents a “linefeed” command (meaning the next pixels to be processed are from the line below).
@@ -132,7 +132,7 @@ The function rewards the user who chooses to accept these limitations in favor t
 
 This function takes, on average (and with a sufficiently good compiler) about 90 clock cycles per pixel processed; this translates to about 10-20 times less clock cycles than the aforementioned GPED function (for a Floyd-Steinberg filter; other filters take longer proportionally to their number of weights).
 
-For example, an ATMega2560 running at 16MHz will process a 128x32 BW image in about (90*128*32)*(1/(16*10^6)) = 23ms, while the same image processed using the GPED function could take up to roughly 400ms.
+For example, an ATMega2560 running at 16MHz will process a 128x32 BW image in about (90 * 128 * 32) / (16 * 10^6) = 23ms, while the same image processed using the GPED function could take up to roughly 400ms.
 
 
 
@@ -242,7 +242,8 @@ Example usage:
 ## Other functions available
 
 Here we list the other functions, some used in the library, others ment to be used it your implementation (e.g.: color bit depth conversion, indexing, …), others still already set up for future expansion of the library (such as support for different, higher output bit depths than 1).\
-NOTE: all of the color conversion function operate on a **single pixel**. If you have to convert an entire image before dithering or displaying/printing, you need to step through each pixel and convert them one by one.
+NOTE1: all of the color conversion function operate on a **single pixel**. If you have to convert an entire image before dithering or displaying/printing, you need to step through each pixel and convert them one by one.\
+NOTE2: Not all the available functions have been tested, since I didn't have the hardware to do so. If you notice weird results, blame them before anything else.
 
 
 `uint32_t index(int x, int y);`\
