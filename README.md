@@ -160,18 +160,15 @@ The two main algorithms developed in this library make use of a clustered and a 
 In order to use this algorithm (whose function is called “patternDither”), one of the matrix-filling functions must be called beforehand in order to put the coefficients at their correct locations.
 
 In order to do so, you are provided with two functions, called “buildClusteredPattern” and “buildBayerPattern” which, according to the macro “\_size” found in “Dither.h”, fill the entries of the matrix, and allow the dithering function to be used.
-
-If neither of the two filter-filling functions gets executed before the patterDither function, this last one will stop immediately and return “-1”.
+If neither of the two filter-filling functions gets executed before the patterDither function, **this last one will stop immediately** and return “-1”.
 
 Still, as soon as one of those functions is executed, the matrix entries will be saved in RAM so no additional call needs to be made, until power is lost or RAM is corrupted in other ways (e.g.: going to sleep).
-
 A valid approach, then, would be to call either “buildClusteredPattern” or “buildBayerPattern” in the first section of the main, and then only use “patternDither” in the while(1){} section.
 
-The “\_size” parameter dictates how many row/columns of the (square) convolutional filter matrix are to be used.
-
+The “\_size” parameter dictates how many row/columns of the (square) convolutional filter matrix are to be used.\
 Theoretically, the number of output gray shades obtainable for a given choice of “\_size” is: 
-[1 + (\_size)^2]. Literature papers and experiments show, however, that matrices bigger than 3x3 yield unnoticeable results. In contrast, the higher the \_size of the matrix, the bigger the final dithered (clusters of) “pixels”, leading to a lower overall resolution.
-On lower-end uCs, though, it's recommended to use values of \_size powers of two (so either  2 or 4); this is because the compiler will be able to optimize modulo operations performed in the dithering function.
+[1 + (\_size)^2]. Literature papers and experiments show, however, that matrices bigger than 3x3 yield unnoticeable improvements. In contrast, the higher the \_size of the matrix, the bigger the final dithered (clusters of) “pixels”, leading to a lower overall resolution.
+On lower-end uCs, though, it's recommended to use values of \_size powers of two (so either  2 or 4); this is because the compiler will be able to optimize modulo operations performed in the patterning function.
 
 
 Example usage:
