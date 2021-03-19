@@ -1,5 +1,5 @@
 # Dithering & Halftoning C++ library
-#### Developed by [Deep Tronix](https://deeptronix.wordpress.com/) 2018~2021
+#### Developed by [Deep Tronix](http://rebrand.ly/deeptronix) 2018~2021
 #### Library intended for use in microcontrollers and other embedded devices.
 
 A (hopefully comprehensive) guide to the library.
