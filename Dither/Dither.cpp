@@ -358,8 +358,11 @@ int8_t Dither::patternDither(uint8_t *IMG_pixel,
 	uint8_t pixel, compa, patt_row;
 
 	for(uint16_t row = 0; row < _img_height; row++){
-		patt_row = row % _size;		// here, so it's quite a bit faster. No need to use bitwise operations: this line is executed only img_height times for each image.
-		
+		#if (_size & (_size - 1)) == 0		// is _size a power of 2 ?
+			patt_row = row & (_size - 1);
+		#else
+			patt_row = row % _size;
+		#endif		
     for(uint16_t col = 0; col < _img_width; col++){
     	ind = index(col, row);
     	pixel = IMG_pixel[ind];
