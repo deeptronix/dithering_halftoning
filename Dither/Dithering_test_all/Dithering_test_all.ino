@@ -98,7 +98,7 @@ void setup(){
     t = micros() - t;
     Serial.println("Image dithered using algorithm # " + String(cnt) + ". Operation took " + String(t) + "us.");
     
-    cnt = (cnt + 1) % 14;
+    cnt = (cnt + 1) % 15;
 
     
     display.clearDisplay();
