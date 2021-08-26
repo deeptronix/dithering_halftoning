@@ -31,8 +31,10 @@ Since the GPEDDither function is the same for all the algorithms used, there are
 
 - The function cannot easily be optimized any further, without knowing either the microcontroller's instruction set or other simplifications. For this reason, the function is clearly not as efficient as a filter-specific version of the same.
 - The filter coefficients are stored in an array (actually, a matrix) in the “Dither.h” file; the arrangement can seem a little confusing at start, hence I decided to dedicate the next section to explain it, and also allow for editing.
+- A "quantization_bits" input parameter is available if you have a display that supports gray shades. In this case, dithering allows for much smoother gradients that would otherwise result in harsh gray-shading lines.\
+In order to take full advantage of the capabilities of this gray shading+dithering technique, you are supposed to enter a number of bits equal (greater wouldn't make a difference) to the bits of gray-shading available in your display (e.g.: using [my EPD gray-shading library](https://github.com/deeptronix/epd42_library/tree/main/epd42_library/Gray_shade_EPD), which allows for 8 gray shades, you should use one of the dithering functions with quantization_bits set to 3).
 
-**Please note**: all of the functions accept a second parameter, after the image array pointer, called “quantization\_bits”. This value IS NOT BEING USED in the functions; it's there to allow for further library expansions, when either me or other contributors will decide to deal with more than 1 bit gray shades (1 = monochrome) and even colors. On this note, you can also see that the function seems ready to also accept color inputs (on many lines, green and blue color variables have been commented out, but are there); however, I could not test the library with those parameters for a lack of time and hardware resources, so I decided to leave them disabled.
+**Note**: all of the functions seems ready to also accept color inputs (on many lines, green and blue color variables have been commented out, but are there); however, I could not test the library with those parameters for a lack of time and hardware resources, so I decided to leave them disabled.
 
 **Coefficient arrangement** for different error-diffusion algorithms (found in Dither.h):
 
