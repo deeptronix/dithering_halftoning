@@ -4,14 +4,22 @@
 
 A (hopefully comprehensive) guide to the library.
 
-## Error diffusion dithering algorithms
 
-The main goal of this library was to recreate the most popular error-diffusion algorithms (filters) developed and used back in the days where this technique was used the most.
+The main goal of this library was to recreate the most popular dithering algorithms (filters) developed and used back in the days where this technique was used the most.
+
 
 To do so, I researched the web; back in 2018, when I started this project, a website (no longer alive today) explained in detail the different error-diffusion filters and their corresponding weights.
 I managed to save a copy of the content; it can now be found [here](https://deeptronix.files.wordpress.com/2021/02/digital-halftoning-lee-daniel-crocker.pdf).
 
 Following that document, I managed to develop the different algorithms, now collected in the presented library.
+
+Dithering is nowadays a technique only used in 2 scenarios:
+- the display/printing hardware is color-limited, but the processor has spare processing time
+- The requirement to be fulfilled is the “old-style”, vintage look, like the one from old newspaper.
+
+Let's start with the most common and, to me, most pleasing dithering techniques. 
+
+## Error diffusion dithering algorithms
 The core of the error diffusion algorithms is a function called “\_GPEDDither”, which stands for “General Purpose Error Diffusion Dithering” (the underscore highlights that it is under the private section).
 
 As a way to keep in order the various algorithms, I decided to call it only from specific functions, which have the names of the filter applied.
@@ -118,11 +126,6 @@ Example: Atkinson dithering;  filter entries: {8, 1, 1, -1, 1, 1, 1, -1, 0, 1, E
 ## FastEDDither algorithm
 
 The reason behind this function is optimization.
-Dithering is nowadays a technique only used in 2 scenarios:
-
-- the display/printing hardware is color-limited, but the processor has spare processing time
-- The requirement to be fulfilled is the “old-style”, vintage look, like the one from old newspaper.
-
 With this function, the goal is to improve the overall image perception, even when a low cost processor is being used. After all, this technique was born in times where both processing power and display color accuracy were highly limited.
 
 The cost of such high level of optimization is payed with the limited range of customization of the output image look; the main constraints with this approach are:
