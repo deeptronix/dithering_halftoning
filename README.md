@@ -6,7 +6,7 @@ A (hopefully comprehensive) guide to the library.
 
 
 The main goal of this library was to recreate the most popular dithering algorithms (filters) developed and used back in the days where this technique was used the most.
-
+It aims to get you from the RAW image to the dithered one as quickly as possible (meaning in complexity of using the library, but also in code optimization). 
 
 To do so, I researched the web; back in 2018, when I started this project, a website (no longer alive today) explained in detail the different error-diffusion filters and their corresponding weights.
 I managed to save a copy of the content; it can now be found [here](https://deeptronix.files.wordpress.com/2021/02/digital-halftoning-lee-daniel-crocker.pdf).
