@@ -167,7 +167,7 @@ In order to use this algorithm (whose function is called “patternDither”), o
 In order to do so, you are provided with two functions, called “buildClusteredPattern” and “buildBayerPattern” which, according to the macro “\_size” found in “Dither.h”, fill the entries of the matrix, and allow the dithering function to be used.
 If neither of the two filter-filling functions gets executed before the patterDither function, **this last one will stop immediately** and return “-1”.
 
-Still, as soon as one of those functions is executed, the matrix entries will be saved in RAM so no additional call needs to be made, until power is lost or RAM is corrupted in other ways (e.g.: going to sleep).
+Still, as soon as one of those functions is executed, the matrix entries will be saved in RAM so no additional call needs to be made, until power is lost or RAM is corrupted in other ways (e.g.: going to deep-sleep).
 A valid approach, then, would be to call either “buildClusteredPattern” or “buildBayerPattern” in the first section of the main, and then only use “patternDither” in the while(1){} section.
 
 The “\_size” parameter dictates how many row/columns of the (square) convolutional filter matrix are to be used.\
