@@ -52,6 +52,27 @@ Dither::Dither(uint16_t width, uint16_t height, 	// image parameters, used to de
 }
 
 
+void Dither::updateDimensions(uint16_t new_width, uint16_t new_height){
+	_img_width = new_width;
+	_img_height = new_height;
+}
+
+uint16_t Dither::getWidth(){
+	return _img_width;
+}
+
+uint16_t Dither::getHeight(){
+	return _img_height;
+}
+
+void Dither::reRandomizeBuffer(){
+	// recreate the random buffer for temporal consistency used, if enabled, for random dithering
+  for(uint16_t i = 0; i < _rnd_frame_width; i++){
+  	_rnd_frame[i] = _Rnd();
+  	delayMicroseconds(3);
+  }
+}
+
 
 // ERROR-DIFFUSION Algorithms
 
@@ -104,7 +125,9 @@ int8_t Dither::PersonalFilterDither(uint8_t *IMG_pixel, uint8_t quantization_bit
 // General Purpose Error Distribution dithering structure
 int8_t Dither::_GPEDDither(uint8_t *IMG_pixel, uint8_t quantization_bits, uint8_t filter_index){
 	
-  if(quantization_bits < 1  ||  quantization_bits > 7)  return -1;	// quantization bits not valid
+  if(quantization_bits < 1  ||  quantization_bits > 7){
+		return -1;	// quantization bits not valid
+	}
   
   uint8_t r;	// , g, b;
   uint8_t newr, dummy; // , newg, newb;
@@ -115,7 +138,7 @@ int8_t Dither::_GPEDDither(uint8_t *IMG_pixel, uint8_t quantization_bits, uint8_
   // Preamble: fill array with weights selected by the chosen algorithm
   int8_t weights[max_filter_entries];
   int8_t curr_weight;
-  uint8_t len = 1, divisor = _filters[filter_index][0];
+  uint8_t divisor = _filters[filter_index][0];
   uint8_t max_filt_height = 0, max_filt_width = 0;
   
   bool bitshift_avail = 0;
@@ -125,6 +148,7 @@ int8_t Dither::_GPEDDither(uint8_t *IMG_pixel, uint8_t quantization_bits, uint8_
   	bitshift_div = _twos_power(divisor);
   }
   
+  uint8_t len = 1;
 	for(; _filters[filter_index][len] > END; len++){
 		weights[len] = _filters[filter_index][len];
 		if(weights[len] > 0){
@@ -345,8 +369,7 @@ void Dither::buildBayerPattern(){		// fills in the entries of _pattern[][] array
 			c += offs;
 			c = (_size & 0x01)? (c % _size) : (c & 0x01);
 		}
-	}
-	
+	}	
 }
 
 int8_t Dither::patternDither(uint8_t *IMG_pixel, 
@@ -358,16 +381,17 @@ int8_t Dither::patternDither(uint8_t *IMG_pixel,
 	uint8_t pixel, compa, patt_row;
 
 	for(uint16_t row = 0; row < _img_height; row++){
-		#if (_size & (_size - 1)) == 0		// is _size a power of 2 ?
+		#if is_2s_pow(_size)		// is _size a power of 2 ?
 			patt_row = row & (_size - 1);
 		#else
 			patt_row = row % _size;
-		#endif		
+		#endif
+		
     for(uint16_t col = 0; col < _img_width; col++){
     	ind = index(col, row);
     	pixel = IMG_pixel[ind];
-    	#if (_size & (_size - 1)) == 0		// is _size a power of 2 ?
-    		compa = _pattern[patt_row][col & (_size - 1)];		// modulo operations are very slow on non-math-enhanced uCs, so bitwise operations are useful whenever pattern size is a power of 2
+    	#if is_2s_pow(_size)		// is _size a power of 2 ?
+    		compa = _pattern[patt_row][col & (_size - 1)];		// since modulo operations are very slow on non-math-enhanced uCs, bitwise operations are useful whenever pattern size is a power of 2
     	#else
 				compa = _pattern[patt_row][col % _size];		// if pattern size is not a power of 2, bitwise modulo calculation cannot be implemented.
     	#endif
@@ -386,12 +410,16 @@ int8_t Dither::patternDither(uint8_t *IMG_pixel,
 
 // Other dithering Algorithms
 
-void Dither::randomDither(uint8_t *IMG_pixel, 
+int8_t Dither::randomDither(uint8_t *IMG_pixel, 
 													bool time_consistency, 		// if time_consistency enabled, a frame of noise will be read from RAM to have all dithered frames time-consistent, and execute faster.
 													int8_t thresh){					 	// pixels will be compared to the random value offsetted by thresh (in the interval [-128 : +127]) ; by default it's set to 0
 
   uint32_t ind;
   uint8_t pixel, rnd_val;
+  
+  if(time_consistency  &&  is_2s_pow(_rnd_frame_width)){			// Check if the given random_frame_with is really a power of two, before doing disasters with indices...
+  	return -1;
+  }
   
   for(uint16_t row = 0; row < _img_height; row++){
   	uint8_t noise_offs = _rnd_frame[row % _rnd_frame_width];
@@ -399,10 +427,12 @@ void Dither::randomDither(uint8_t *IMG_pixel,
     	
 			ind = index(col, row);
     	
-    	if(time_consistency)
+    	if(time_consistency){
 				rnd_val = _rnd_frame[noise_offs + (col & (_rnd_frame_width - 1))]; 	// This does the same as "col % _rnd_frame_width", as long as _frame_width is a power of 2
-      else
+      }
+			else{
 			  rnd_val = _Rnd();
+			}
     	
       pixel = IMG_pixel[ind];
       
@@ -412,6 +442,8 @@ void Dither::randomDither(uint8_t *IMG_pixel,
       IMG_pixel[ind] = pixel;
     }
   }
+  
+  return 0;
 }
 
 
@@ -561,4 +593,3 @@ void Dither::colorBoolTo888(bool color, uint8_t &r, uint8_t &g, uint8_t &b) {
 bool Dither::color888ToBool(uint8_t r, uint8_t g, uint8_t b) {
   return ((r + g + b) / 3) >> 7;
 }
-
