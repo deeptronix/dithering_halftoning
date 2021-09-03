@@ -9,7 +9,8 @@ The main goal of this library was to recreate the most popular dithering algorit
 It aims to get you from the RAW image to the dithered one as quickly as possible (meaning in complexity of using the library, but also in code optimization). 
 
 To do so, I researched the web; back in 2018, when I started this project, a website (no longer alive today) explained in detail the different error-diffusion filters and their corresponding weights.
-I managed to save a copy of the content; it can now be found [here](https://deeptronix.files.wordpress.com/2021/02/digital-halftoning-lee-daniel-crocker.pdf).
+I managed to save a copy of the content; it can now be found [here](https://deeptronix.files.wordpress.com/2021/02/digital-halftoning-lee-daniel-crocker.pdf).\
+[This youtube lecture](https://www.youtube.com/watch?v=vh5k3T_EkqI) is also noteworthy, regarding an intuitive and more graphical understanding of dithering and halftoning.
 
 Following that document, I managed to develop the different algorithms, now collected in the presented library.
 
