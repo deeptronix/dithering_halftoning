@@ -249,8 +249,20 @@ NOTE2: Not all the available functions have been tested, since I didn't have the
 
 `void Dither(int width, int height, bool invert_output);`\
 This function is the object constructor, and can be provided with the image width and height. Still, if only some helping functions of the library need to be used, that don't require the definition of a specific width and height, you can call this constructor without any parameter.\
-An additional parameter, "invert_output" is used if the output of choice is not a display, but rather a printer (in which case, black and white colors are often swapped; although most printers will treat '1' as black by themselves). This parameter can be omitted, and it will be disabled by default.\
-See the provided example to see how it's used. 
+An additional parameter, "invert\_output" is used if the output of choice is not a display, but rather a printer (in which case, black and white colors are often swapped; although most printers will treat '1' as black by themselves). This parameter can be omitted, and it will be disabled by default.\
+See the provided example to see how it's used.
+
+`void updateDimensions(uint16_t new_width, uint16_t new_height);`\
+This function can be used to update the image dimensions; if you only need to update one dimension, not knowing what the original dimensions are, you can use the following 'get' methods to interrogate the internal private variables.
+
+`uint16_t getWidth();`\
+Returns the current image width dimension.
+
+`uint16_t getHeight();`
+Returns the current image height dimension.
+
+`void reRandomizeBuffer();`
+Takes the internal random buffer which is used for the function "randomDither" (in particular, when 'time\_consistency' is enabled) and populates it with new random values. Can be useful if you want a temporal consistent random dithering, but need to sometimes change the random pattern applied.
 
 `uint32_t index(int x, int y);`\
 Takes the two values for x and y coordinates (x = 0 → pixels to the far left; y = 0 → pixels at the top) and, implicitly, the values of image width and height provided in the constructor.\
