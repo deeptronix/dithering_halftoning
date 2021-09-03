@@ -41,6 +41,11 @@ SOFTWARE.
 class Dither {
  public:
   Dither(uint16_t width = 0, uint16_t height = 0, bool invert_output = false);
+  
+  void updateDimensions(uint16_t new_width, uint16_t new_height);
+	uint16_t getWidth();
+	uint16_t getHeight();
+	void reRandomizeBuffer();
  	
   int8_t FSDither(uint8_t *IMG_pixel, uint8_t quant_bits = 1);
   int8_t JJNDither(uint8_t *IMG_pixel, uint8_t quant_bits = 1);
@@ -59,7 +64,7 @@ class Dither {
   void buildBayerPattern();		// Time complexity is O(1).
   int8_t patternDither(uint8_t *IMG_pixel, int8_t thresh = 0);		// Time complexity is O(n).
   
-  void randomDither(uint8_t *IMG_pixel, bool time_consistency = true, int8_t thresh = 0);	  // time-consistency enabled by default (faster speed); 	Time complexity is O(n).
+  int8_t randomDither(uint8_t *IMG_pixel, bool time_consistency = true, int8_t thresh = 0);	  // time-consistency enabled by default (faster speed); 	Time complexity is O(n).
   
   void thresholding(uint8_t *IMG_pixel, uint8_t thresh = 128);	// Time complexity is Theta(n).
   // void thresholding(uint8_t *IMG_pixel);										// Overloaded function - No longer implemented
@@ -122,21 +127,10 @@ private:
   uint8_t _rnd_frame[_rnd_frame_width];
   #define _use_low_amplitude_noise  true		// Usually, low amplitude noise is best (resembles more Gaussian distribution). Only sometimes high amplitude noise will result in a more pleasing image.
   
-  
-	uint8_t _Rnd(uint8_t seed = 150);
   // Helping functions (private)
+	uint8_t _Rnd(uint8_t seed = 150);
   inline uint8_t _twos_power(uint16_t number);
   inline uint8_t _clamp(int16_t v, uint8_t min, uint8_t max);
 
 };
-
-
-
-
-
-
-
-
-
-
 
