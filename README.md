@@ -248,7 +248,7 @@ NOTE1: all of the color conversion function operate on a **single pixel**. If yo
 NOTE2: Not all the available functions have been tested, since I didn't have the hardware to do so. If you notice weird results, blame them before anything else.
 
 `void Dither(int width, int height, bool invert_output);`\
-This function is the object constructor, and requires to be provided with the image width and height.\
+This function is the object constructor, and can be provided with the image width and height. Still, if only some helping functions of the library need to be used, that don't require the definition of a specific width and height, you can call this constructor without any parameter.\
 An additional parameter, "invert_output" is used if the output of choice is not a display, but rather a printer (in which case, black and white colors are often swapped; although most printers will treat '1' as black by themselves). This parameter can be omitted, and it will be disabled by default.\
 See the provided example to see how it's used. 
 
