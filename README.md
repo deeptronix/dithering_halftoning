@@ -259,10 +259,10 @@ This function can be used to update the image dimensions; if you only need to up
 `uint16_t getWidth();`\
 Returns the current image width dimension.
 
-`uint16_t getHeight();`
+`uint16_t getHeight();`\
 Returns the current image height dimension.
 
-`void reRandomizeBuffer();`
+`void reRandomizeBuffer();`\
 Takes the internal random buffer which is used for the function "randomDither" (in particular, when 'time\_consistency' is enabled) and populates it with new random values. Can be useful if you want a temporal consistent random dithering, but need to sometimes change the random pattern applied.
 
 `uint32_t index(int x, int y);`\
