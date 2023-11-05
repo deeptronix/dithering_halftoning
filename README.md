@@ -33,7 +33,7 @@ The available error-diffusion dithering algorithms are:
 - Sierra3
 - Sierra2
 - Sierra-2-4A
-- Atkinson (not found in the document, but available [here](http://verlagmartinkoch.at/software/dither/index.html#img:~:text=BILL%20ATKINSON%20ALGORITHM,1/8))
+- Atkinson (not found in the document, but available [here](https://beyondloom.com/blog/dither.html))
 - a personal filter, of which the coefficients can be customized, for example by taking inspiration from other filters. By default, the values are set up so as to emulate a simplified and more “constrasty” version of the Atkinson filter.
 
 Since the GPEDDither function is the same for all the algorithms used, there are two key points to notice:
